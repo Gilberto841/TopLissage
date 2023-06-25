@@ -23,8 +23,7 @@ class Order
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
     private ?string $total = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
-    private ?Professional $professional = null;
+   
 
     #[ORM\OneToMany(mappedBy: 'order_id', targetEntity: OrderLine::class)]
     private Collection $orderLines;
@@ -63,18 +62,7 @@ class Order
         return $this;
     }
 
-    public function getProfessional(): ?Professional
-    {
-        return $this->professional;
-    }
-
-    public function setProfessional(?Professional $professional): self
-    {
-        $this->professional = $professional;
-
-        return $this;
-    }
-
+  
     /**
      * @return Collection<int, OrderLine>
      */

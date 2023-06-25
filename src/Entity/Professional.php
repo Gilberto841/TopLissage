@@ -3,68 +3,149 @@
 namespace App\Entity;
 
 use App\Repository\ProfessionalRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ProfessionalRepository::class)]
-class Professional
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class Professional implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 80)]
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $email = null;
+
+    #[ORM\Column]
+    private array $roles = [];
+
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
+
+    #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 255)]
     private ?string $postalAdress = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $email = null;
-
-    #[ORM\Column(length: 30)]
-    private ?string $password = null;
-
-    #[ORM\Column(length: 30)]
-    private ?string $phone = null;
-
-    #[ORM\Column(length: 80)]
     private ?string $siret = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $role = null;
 
     #[ORM\Column]
     private ?bool $hairSalon = null;
 
-    #[ORM\ManyToOne(inversedBy: 'professionals')]
-    private ?Administrator $administrator = null;
-
-    #[ORM\OneToMany(mappedBy: 'professional', targetEntity: HairSalon::class)]
-    private Collection $hairSalons;
-
-    #[ORM\OneToMany(mappedBy: 'professional', targetEntity: Order::class)]
-    private Collection $orders;
-
-    public function __construct()
-    {
-        $this->hairSalons = new ArrayCollection();
-        $this->orders = new ArrayCollection();
-    }
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $authCode = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+/* Start Interface TwoFactorInterface */
+
+public function isEmailAuthEnabled(): bool
+{
+    return true; // This can be a persisted field to switch email code authentication on/off
+}
+
+public function getEmailAuthRecipient(): string
+{
+    return $this->email;
+}
+
+public function getEmailAuthCode(): string
+{
+    if (null === $this->authCode) {
+        throw new \LogicException('The email authentication code was not set');
+    }
+
+    return $this->authCode;
+}
+
+public function setEmailAuthCode(string $authCode): void
+{
+    $this->authCode = $authCode;
+}
+/* End Interface TwoFactorInterface */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name): static
     {
         $this->name = $name;
 
@@ -76,45 +157,9 @@ class Professional
         return $this->postalAdress;
     }
 
-    public function setPostalAdress(string $postalAdress): self
+    public function setPostalAdress(string $postalAdress): static
     {
         $this->postalAdress = $postalAdress;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(string $phone): self
-    {
-        $this->phone = $phone;
 
         return $this;
     }
@@ -124,21 +169,9 @@ class Professional
         return $this->siret;
     }
 
-    public function setSiret(string $siret): self
+    public function setSiret(string $siret): static
     {
         $this->siret = $siret;
-
-        return $this;
-    }
-
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
-    public function setRole(string $role): self
-    {
-        $this->role = $role;
 
         return $this;
     }
@@ -148,81 +181,21 @@ class Professional
         return $this->hairSalon;
     }
 
-    public function setHairSalon(bool $hairSalon): self
+    public function setHairSalon(bool $hairSalon): static
     {
         $this->hairSalon = $hairSalon;
 
         return $this;
     }
 
-    public function getAdministrator(): ?Administrator
+    public function getAuthCode(): ?string
     {
-        return $this->administrator;
+        return $this->authCode;
     }
 
-    public function setAdministrator(?Administrator $administrator): self
+    public function setAuthCode(?string $authCode): static
     {
-        $this->administrator = $administrator;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, HairSalon>
-     */
-    public function getHairSalons(): Collection
-    {
-        return $this->hairSalons;
-    }
-
-    public function addHairSalon(HairSalon $hairSalon): self
-    {
-        if (!$this->hairSalons->contains($hairSalon)) {
-            $this->hairSalons->add($hairSalon);
-            $hairSalon->setProfessional($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHairSalon(HairSalon $hairSalon): self
-    {
-        if ($this->hairSalons->removeElement($hairSalon)) {
-            // set the owning side to null (unless already changed)
-            if ($hairSalon->getProfessional() === $this) {
-                $hairSalon->setProfessional(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Order $order): self
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setProfessional($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): self
-    {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getProfessional() === $this) {
-                $order->setProfessional(null);
-            }
-        }
+        $this->authCode = $authCode;
 
         return $this;
     }
