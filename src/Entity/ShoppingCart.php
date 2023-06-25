@@ -15,8 +15,7 @@ class ShoppingCart
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Professional $professional = null;
+  
 
     #[ORM\OneToMany(mappedBy: 'shoppingCart', targetEntity: ShoppingCartItem::class)]
     private Collection $shoppingCartItems;
@@ -31,18 +30,7 @@ class ShoppingCart
         return $this->id;
     }
 
-    public function getProfessional(): ?Professional
-    {
-        return $this->professional;
-    }
-
-    public function setProfessional(?Professional $professional): self
-    {
-        $this->professional = $professional;
-
-        return $this;
-    }
-
+    
     /**
      * @return Collection<int, ShoppingCartItem>
      */
