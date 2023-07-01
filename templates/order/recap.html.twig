@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vérifier la commande
+{% endblock %}
+
+{% block body %}
+
+	{% block content %}
+		<h1>Vérification de votre commande</h1>
+		<h3>Les details d'expedition</h3>
+		<div>
+			<label for="">
+				<span>{{transporter.title}}</span>
+				<span>{{transporter.content}}</span>
+
+				<span>{{transporter.price|number_format(2,',','.')}}
+					€</span>
+
+			</label>
+		</div>
+		<h3>Les details d'expedition</h3>
+		
+        <div>
+			<label for="">
+				<span>{{delivery|raw}}</span>
+			</label>
+        </div>
+
+        <div>
+            <h2>Récapitulatif de la commande</h2>
+            <span>{{recapCart|length}} produits</span>
+            {% set total = null %}
+            {% for product in recapCart %}
+            <pre>
+                
+            </pre>
+            <div>
+                <h3>{{product.product.name}}</h3>
+            </div>
+            <div>
+                <div>
+                {{(product.product.price/100)|number_format(2,',','.')}} €
+                </div>
+            </div>
+                
+            
+                {% set total = total + (product.product.price * product.quantity) %}
+            {% endfor %}
+        </div>
+        <div>
+            <ul>
+                <li>Sous Total : <span>
+                    {{(total / 100)|number_format(2,',','.')}} €
+                </span></li>
+                <li>Frais de port : <span>
+                    {{(transporter.price / 100)|number_format(2,',','.')}} €
+                </span></li>
+               
+            </ul>
+        </div>
+        <div>
+            Total : <span>{{(total / 100 + (transporter.price / 100))|number_format(2,',','.')}} €</span>
+        </div>
+
+        <div>
+            
+            
+                <form action="{{path('payment_stripe',{reference: reference})}}" method="POST">
+                <button type="submit" class="btn btn-lg btn-primary">Payer par Stripe|{{ (total / 100 + (transporter.price / 100))|number_format(2, ',', '.') }} €</button>
+                </form>
+
+         
+        </div>
+
+	{% endblock %}
+
+{% endblock %}

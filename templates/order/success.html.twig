@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Succès d'achat{% endblock %}
+
+{% block body %}
+    <h1>Votre achat a été effectué avec succès !</h1>
+    <p>Merci d'avoir effectué votre achat.</p>
+    <p>Votre référence de commande est : {{ reference }}</p>
+
+    <a href="{{ path('cart_index') }}" class="btn btn-primary">Revenir au panier</a>
+{% endblock %}
