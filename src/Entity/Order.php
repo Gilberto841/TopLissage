@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
@@ -17,20 +16,39 @@ class Order
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateCommande = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
-    private ?string $total = null;
+    #[ORM\Column(length: 255)]
+    private ?string $transporterName = null;
 
-   
+    #[ORM\Column]
+    private ?float $transporteurPrice = null;
 
-    #[ORM\OneToMany(mappedBy: 'order_id', targetEntity: OrderLine::class)]
-    private Collection $orderLines;
+    #[ORM\Column(length: 255)]
+    private ?string $delivery = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $method = null;
+
+    #[ORM\Column]
+    private ?bool $isPaid = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $reference = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripeSessionId = null;
+
+    #[ORM\OneToMany(mappedBy: 'orderProduct', targetEntity: RecapDetail::class)]
+    private Collection $recapDetails;
+
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    private ?Professional $professional = null;
 
     public function __construct()
     {
-        $this->orderLines = new ArrayCollection();
+        $this->recapDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -38,57 +56,140 @@ class Order
         return $this->id;
     }
 
-    public function getDateCommande(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->dateCommande;
+        return $this->createdAt;
     }
 
-    public function setDateCommande(\DateTimeInterface $dateCommande): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->dateCommande = $dateCommande;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getTotal(): ?string
+    public function getTransporterName(): ?string
     {
-        return $this->total;
+        return $this->transporterName;
     }
 
-    public function setTotal(string $total): self
+    public function setTransporterName(string $transporterName): static
     {
-        $this->total = $total;
+        $this->transporterName = $transporterName;
 
         return $this;
     }
 
-  
+    public function getTransporteurPrice(): ?float
+    {
+        return $this->transporteurPrice;
+    }
+
+    public function setTransporteurPrice(float $transporteurPrice): static
+    {
+        $this->transporteurPrice = $transporteurPrice;
+
+        return $this;
+    }
+
+    public function getDelivery(): ?string
+    {
+        return $this->delivery;
+    }
+
+    public function setDelivery(string $delivery): static
+    {
+        $this->delivery = $delivery;
+
+        return $this;
+    }
+
+    public function getMethod(): ?string
+    {
+        return $this->method;
+    }
+
+    public function setMethod(string $method): static
+    {
+        $this->method = $method;
+
+        return $this;
+    }
+
+    public function isIsPaid(): ?bool
+    {
+        return $this->isPaid;
+    }
+
+    public function setIsPaid(bool $isPaid): static
+    {
+        $this->isPaid = $isPaid;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): static
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getStripeSessionId(): ?string
+    {
+        return $this->stripeSessionId;
+    }
+
+    public function setStripeSessionId(?string $stripeSessionId): static
+    {
+        $this->stripeSessionId = $stripeSessionId;
+
+        return $this;
+    }
+
     /**
-     * @return Collection<int, OrderLine>
+     * @return Collection<int, RecapDetail>
      */
-    public function getOrderLines(): Collection
+    public function getRecapDetails(): Collection
     {
-        return $this->orderLines;
+        return $this->recapDetails;
     }
 
-    public function addOrderLine(OrderLine $orderLine): self
+    public function addRecapDetail(RecapDetail $recapDetail): static
     {
-        if (!$this->orderLines->contains($orderLine)) {
-            $this->orderLines->add($orderLine);
-            $orderLine->setOrderId($this);
+        if (!$this->recapDetails->contains($recapDetail)) {
+            $this->recapDetails->add($recapDetail);
+            $recapDetail->setOrderProduct($this);
         }
 
         return $this;
     }
 
-    public function removeOrderLine(OrderLine $orderLine): self
+    public function removeRecapDetail(RecapDetail $recapDetail): static
     {
-        if ($this->orderLines->removeElement($orderLine)) {
+        if ($this->recapDetails->removeElement($recapDetail)) {
             // set the owning side to null (unless already changed)
-            if ($orderLine->getOrderId() === $this) {
-                $orderLine->setOrderId(null);
+            if ($recapDetail->getOrderProduct() === $this) {
+                $recapDetail->setOrderProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProfessional(): ?Professional
+    {
+        return $this->professional;
+    }
+
+    public function setProfessional(?Professional $professional): static
+    {
+        $this->professional = $professional;
 
         return $this;
     }

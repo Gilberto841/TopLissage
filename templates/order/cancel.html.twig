@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur d'achat{% endblock %}
+
+{% block body %}
+    <h1>Erreur lors de l'achat</h1>
+    <p>Une erreur s'est produite lors du traitement de votre paiement.</p>
+    <p>Votre référence de commande est : {{ reference }}</p>
+    <p>Veuillez réessayer ultérieurement ou contacter notre service client pour plus d'informations.</p>
+
+    <a href="{{ path('cart_index') }}" class="btn btn-primary">Revenir au panier</a>
+{% endblock %}

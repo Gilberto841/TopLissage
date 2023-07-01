@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!
+{% endblock %}
+
+{% block body %}
+
+
+	<h1>Mon Panier
+	</h1>
+
+	<hr>
+	{% if cart|length > 0  %}
+		<form action="{{path("order")}}">
+			{% set total = null %}
+			{% for item in cart %}
+				{% set total = total + (item.product.price * item.quantity) %}
+				<div class="container position-relative zindex py-5 pb-lg-5 pb-md-4 pb-2">
+					<div class="row align-items-center">
+						<div class="col">
+							<ul>
+								<h2>Nom :
+									{{ item.product.name }}</h2>
+								<img src="{{ asset('upload/images/products/' ~ item.product.image) }}" alt="" width="110">
+								<li>Description :
+									{{ item.product.description|striptags }}</li>
+								<li>Prix :
+									{{ (item.product.price / 100)|number_format(2,',','.') }}
+									€</li>
+							</ul>
+						</div>
+						<div class="col d-flex align-items-center">
+							<a class="btn btn-icone fs-xl" href="{{ path('cart_add', { id: item.product.id }) }}" data-bs-toggle="tooltip" title="Remove">Ajouter : +</a>
+							<p class="">Nombre de Produit :
+								{{ item.quantity }}</p>
+							<a class="btn btn-icone fs-xl" href="{{ path('cart_decrease', { id: item.product.id }) }}" data-bs-toggle="tooltip" title="Remove">Réduire : -</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<a class="nav-link fs-xl p-25" href="{{ path('cart_remove', { id: item.product.id }) }}" data-bs-toggle="tooltip" title="Remove">
+								Enlever
+
+							</a>
+						</div>
+					</div>
+				</div>
+
+
+				<hr>
+			{% endfor %}
+			<button type="submit" class='primary-btn'>Valider mon Panier</button>
+			
+
+		</form>
+		<a href="{{path("index")}}">
+				<button class='primary-btn'>
+					Mes Articles !</button>
+			</a>
+			<a href="{{path("cart_removeAll")}}">
+				<button class='primary-btn'>
+					supprimer tout</button>
+			</a>
+		<ul>
+			<li>{{cart | length }}</li>
+		</ul>
+		<div class="py-5 m-3">
+			<span>
+				Total :
+				{{ (total / 100)|number_format(2,',','.')}}
+				€
+			</span>
+		</div>
+
+	{% else %}
+
+		<h1>Votre Panier est Vide !</h1>
+
+
+	{% endif %}
+
+
+{% endblock %}
