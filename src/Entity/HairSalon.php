@@ -95,5 +95,12 @@ class HairSalon
         return $this;
     }
 
+     /* Ajout de la fonction __tostring() */
+     public function __toString(): string
+     {
+         // Convertis le champ le en sting
+         return $this->postalAdress;
+     }
+
    
 }
