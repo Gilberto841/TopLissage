@@ -33,28 +33,27 @@ class CategoryCrudController extends AbstractCrudController
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        /* Controle si la variable $entityInstance est une instance de la classe Catégory */
+        /* Vérifie si la variable $entityInstance est une instance de la classe Category */
         if (!$entityInstance instanceof Category ) {
             
             return;
         }
-        /* si elle n'existe pas on crée le champ CreatedAt avec le type DateTimeImmutalbe  */
+        /* Si elle n'existe pas, crée le champ CreatedAt avec le type DateTimeImmutable */
         $entityInstance->setCreatedAt(new \DateTimeImmutable);
 
-        /* Utiliser la fonctionnalité présente dans l'AbstractController */
+        /* Utilise la fonctionnalité présente dans l'AbstractController */
         parent::persistEntity($entityManager, $entityInstance);
     }
 
-public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
-{
-    if (!$entityInstance instanceof Category ) {
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        if (!$entityInstance instanceof Category ) {
             
-        return;
-}
-   /* si elle n'existe pas on crée le champ CreatedAt avec le type DateTimeImmutalbe  */
-   $entityInstance->setUpdatedAt(new \DateTimeImmutable);
+            return;
+        }
+        /* Si elle n'existe pas, crée le champ UpdatedAt avec le type DateTimeImmutable */
+        $entityInstance->setUpdatedAt(new \DateTimeImmutable);
 
-   parent::updateEntity($entityManager, $entityInstance);
-}
-
+        parent::updateEntity($entityManager, $entityInstance);
+    }
 }

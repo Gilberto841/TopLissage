@@ -18,11 +18,14 @@ class ContactType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // Ajoute les différents champs du formulaire
         $builder
         ->add('name', TextType::class,[
             'label' => 'votre nom/prénom',
             'constraints' => [
+                // Contrainte : le champ ne doit pas être vide
                 new NotBlank(),
+                // Contrainte : la longueur du champ doit être comprise entre 5 et 180 caractères
                 new Length([
                     'min' => 5,
                     'max' => 180
@@ -48,6 +51,7 @@ class ContactType extends AbstractType
         ->add('submit', SubmitType::class, [
             'label' => 'Envoyer',
             'attr' => [
+                // Attribut : classe CSS pour le bouton
                 'class' => 'd-block mx-auto my-3 col-6 btn btn-primary'
             ]
         ]);
@@ -55,6 +59,7 @@ class ContactType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        // Configuration des options du formulaire
         $resolver->setDefaults([
             'data_class' => Contact::class,
         ]);

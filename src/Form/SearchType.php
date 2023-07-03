@@ -23,19 +23,19 @@ class SearchType extends AbstractType
         $builder
             ->add('query', TextType::class, [
                 'attr' => [
-                    'placeholder' => $this->translator->trans('Recherche via le code postal')
+                    'placeholder' => $this->translator->trans('Recherche via le code postal') // Placeholder du champ de saisie
                 ],
-                'empty_data' => '',
-                'required' => true
+                'empty_data' => '', // Valeur par défaut du champ de saisie
+                'required' => true // Champ de saisie requis
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => SearchData::class,
-            'method' => 'GET',
-            'csrf_protection' => false
+            'data_class' => SearchData::class, // Classe de l'entité utilisée pour les données du formulaire
+            'method' => 'GET', // Méthode de soumission du formulaire
+            'csrf_protection' => false // Désactiver la protection CSRF pour ce formulaire
         ]);
     }
 }
