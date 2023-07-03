@@ -13,6 +13,7 @@ class OrderType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // Récupère l'option 'user' passée lors de la configuration du formulaire
         $user = $options['user'];
 
         $builder
@@ -36,6 +37,7 @@ class OrderType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        // Configuration des options du formulaire
         $resolver->setDefaults([
             'user' => []
         ]);

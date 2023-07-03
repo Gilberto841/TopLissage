@@ -80,7 +80,7 @@ class RegistrationFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Professional::class,
+            'data_class' => Professional::class, // Classe de l'entité utilisée pour les données du formulaire
         ]);
     }
 }

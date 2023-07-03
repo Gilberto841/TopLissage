@@ -24,6 +24,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ProductCrudController extends AbstractCrudController 
 {
+    // Chemin de base pour le téléchargement des images des produits
     public const PRODUCTS_PATH_BASE = 'upload/images/products';
     public const PRODUCTS_UPLOAD_DIR = 'public/upload/images/products';
     public const ACTION_DUPLICATE = 'duplicate';
@@ -32,46 +33,46 @@ class ProductCrudController extends AbstractCrudController
     {
         return Product::class;
     }
-    /* Création d'un bouton DUPLICATE qui se place sur la page Edit d'un élément */
+
+    // Configuration des actions pour le CRUD
     public function configureActions(Actions $actions): Actions
     {
-        /* création d'un bouton pour dupliquer */
+        // Ajout d'un bouton "Dupliquer" pour dupliquer un produit
         $duplicate = Action::new(self::ACTION_DUPLICATE)
-                            ->linkToCrudAction('duplicateProduct')
-                            /* ajout d'un style bootstrp */
-                            ->setCssClass('btn btn-info');
+            ->linkToCrudAction('duplicateProduct')
+            ->setCssClass('btn btn-info');
         return $actions
-        /* on place le bouton dupliquer sur la page edit (modifier) */
-        ->add(Crud::PAGE_EDIT,$duplicate);
+            ->add(Crud::PAGE_EDIT, $duplicate);
     }
-    /* fonction permettant à l'action de dupliquer un élément selectionné, via le bouton duplicate */
-    public function duplicateProduct(AdminContext $context, /* Variable $context contenant les informations des produits selectionnés */
-                                    EntityManagerInterface $entityManager,/* Variable et class appartenant persistEntity */
-                                    AdminUrlGenerator $adminUrlGenerator/* On génére un URL */
-                                    ):Response
 
-    {
-        /* déclaration de la variable sur la class Product */
-        /** @var Product $product  */
-        /* Variable product contenant l'Instance la variable context */
+    // Action pour dupliquer un produit
+    public function duplicateProduct(
+        AdminContext $context,
+        EntityManagerInterface $entityManager,
+        AdminUrlGenerator $adminUrlGenerator
+    ): Response {
+        // Récupération de l'instance du produit à dupliquer
+        /** @var Product $product */
         $product = $context->getEntity()->getInstance();
-        /* variable permettant de cloner le produit */
+
+        // Clonage du produit
         $duplicateProduct = clone $product;
-        /* appel la public fonction persistEntity dans l'asbtractCrudController  */
+
+        // Appel de la méthode persistEntity de l'AbstractCrudController pour persister l'entité clonée
         parent::persistEntity($entityManager, $duplicateProduct);
-    /* url pour afficher page détail après avoir dupliqué */
+
+        // Génération de l'URL pour afficher la page de détail du produit dupliqué
         $url = $adminUrlGenerator->setController(self::class)
             ->setAction(Action::DETAIL)
             ->setEntityId($duplicateProduct->getId())
             ->generateUrl();
-        
-        /* URL permettant d'aller à la plage détail après avoir dupliquer */
-         return $this->redirect($url);   
 
+        // Redirection vers la page de détail du produit dupliqué
+        return $this->redirect($url);
     }
-    /* fonction public permettant de gérer les champs vu dans le formulaire de création d'un produit */
-    public function configureFields(string $pageName): iterable
 
+    // Configuration des champs du formulaire de création/édition du produit
+    public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
@@ -86,42 +87,28 @@ class ProductCrudController extends AbstractCrudController
             ImageField::new('image')->setBasePath(self::PRODUCTS_PATH_BASE)->setUploadDir(self::PRODUCTS_UPLOAD_DIR)->setSortable(false),
             DateTimeField::new('updatedAt')->hideOnForm(),
             DateTimeField::new('createdAt')->hideOnForm(),
-
-
-
-
-
         ];
     }
-    /* function permettant de créer la date CreatedAt à l'action de la création d'un produit */
+
+    // Méthode pour ajouter la date de création (createdAt) lors de la persistance d'un produit
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        /* Controle si la variable $entityInstance est une instance de la classe Catégory */
-        if (!$entityInstance instanceof Product ) {
-            
+        if (!$entityInstance instanceof Product) {
             return;
         }
-        /* si elle n'existe pas on crée le champ CreatedAt avec le type DateTimeImmutalbe  */
+
         $entityInstance->setCreatedAt(new \DateTimeImmutable);
-
-        /* Utiliser la fonctionnalité présente dans l'AbstractController */
         parent::persistEntity($entityManager, $entityInstance);
-
-        
     }
 
-/* function permettant de créer la date UpdatedAt à l'action de la mise a jour d'un produit */
+    // Méthode pour ajouter la date de mise à jour (updatedAt) lors de la mise à jour d'un produit
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
-{
-    if (!$entityInstance instanceof Product ) {
-            
-        return;
-}
-   /* si elle n'existe pas on crée le champ CreatedAt avec le type DateTimeImmutalbe  */
-   $entityInstance->setUpdatedAt(new \DateTimeImmutable);
-   
-   /* Utiliser la fonctionnalité présente dans l'AbstractController */
-   parent::updateEntity($entityManager, $entityInstance);
-}
-   
+    {
+        if (!$entityInstance instanceof Product) {
+            return;
+        }
+
+        $entityInstance->setUpdatedAt(new \DateTimeImmutable);
+        parent::updateEntity($entityManager, $entityInstance);
+    }
 }
