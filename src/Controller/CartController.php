@@ -4,10 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Service\CartService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class CartController extends AbstractController
 {
@@ -15,6 +16,12 @@ class CartController extends AbstractController
     #[Route('/mon-panier', name: 'cart_index')]
     public function index(CartService $cartService): Response
     {
+        try {
+            $this->denyAccessUnlessGranted("ROLE_PROFESSIONAL");
+        } catch (AccessDeniedException $exception) {
+            $this->addFlash('danger', "Cette partie du site est réservée veuillez vous connecté");
+            return $this->redirectToRoute('app_login');
+        }
         // Rend la vue 'cart/index.html.twig' en passant le contenu du panier
         return $this->render('cart/index.html.twig', [
            'cart' => $cartService->getTotal()
@@ -59,7 +66,7 @@ class CartController extends AbstractController
     public function removeAll(CartService $cartService): Response
     {
         // Appelle la méthode revoveCartAll du service CartService pour supprimer tous les produits du panier
-        $cartService->revoveCartAll();
+        $cartService->removeCartAll();
 
         // Redirige vers la route 'index'
         return $this->redirectToRoute('index');

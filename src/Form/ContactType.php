@@ -20,41 +20,61 @@ class ContactType extends AbstractType
     {
         // Ajoute les différents champs du formulaire
         $builder
-        ->add('name', TextType::class,[
-            'label' => 'votre nom/prénom',
-            'constraints' => [
-                // Contrainte : le champ ne doit pas être vide
-                new NotBlank(),
-                // Contrainte : la longueur du champ doit être comprise entre 5 et 180 caractères
-                new Length([
-                    'min' => 5,
-                    'max' => 180
-                ])
-            ]
-        ])
-        ->add('email', EmailType::class, [
-            'label' => 'votre email'
-        ])
-        ->add('phone', TelType::class,[
-            'label' => 'tel'
-        ])
-        ->add('postalAddress', TextType::class,[
-            'label' => 'Adress Postal'
-        ])
-        ->add('codePostal', TextType::class,[
-            'label' => 'Code Postal'
-        ])
-        ->add('objet', TextType::class,[
-            'label' => 'Objet'
-        ])
-        ->add('message', TextareaType::class)
-        ->add('submit', SubmitType::class, [
-            'label' => 'Envoyer',
-            'attr' => [
-                // Attribut : classe CSS pour le bouton
-                'class' => 'd-block mx-auto my-3 col-6 btn btn-primary'
-            ]
-        ]);
+            ->add('name', TextType::class, [
+                'label' => 'Votre nom/prénom',
+                'constraints' => [
+                    new NotBlank(),
+                    new Length([
+                        'min' => 5,
+                        'max' => 180
+                    ])
+                ],
+                'attr' => [
+                    'class' => 'form-control mb-6'
+                ]
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'Votre email',
+                'attr' => [
+                    'class' => 'form-control mb-6'
+                ]
+            ])
+            ->add('phone', TelType::class, [
+                'label' => 'Téléphone',
+                'attr' => [
+                    'class' => 'form-control mb-6'
+                ]
+            ])
+            ->add('postalAddress', TextType::class, [
+                'label' => 'Adresse postale',
+                'attr' => [
+                    'class' => 'form-control mb-6'
+                ]
+            ])
+            ->add('codePostal', TextType::class, [
+                'label' => 'Code postal',
+                'attr' => [
+                    'class' => 'form-control mb-6'
+                ]
+            ])
+            ->add('objet', TextType::class, [
+                'label' => 'Objet',
+                'attr' => [
+                    'class' => 'form-control mb-6'
+                ]
+            ])
+            ->add('message', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control mb-6',
+                    'rows' => 5
+                ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Envoyer',
+                'attr' => [
+                    'class' => 'btn btn-primary btn-block mt-4'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

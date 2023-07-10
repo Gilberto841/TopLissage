@@ -37,6 +37,13 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/home, roles: ROLE_USER }
+        # Page accessible pour les professionnels et les administrateurs
+        - { path: ^/professional, roles: ROLE_PROFESSIONAL }
+        # Page accessible seulement pour les administrateurs
+        - { path: ^/admin, roles: ROLE_ADMIN }
+
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_PROFESSIONAL]
 
 when@test:
     security:

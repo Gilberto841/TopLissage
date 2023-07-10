@@ -52,7 +52,7 @@ class CartService
         $this->getSession()->set('cart', $cart);
     }
 
-    public function revoveCartAll()
+    public function removeCartAll()
     {
         return $this->getSession()->remove('cart');
     }

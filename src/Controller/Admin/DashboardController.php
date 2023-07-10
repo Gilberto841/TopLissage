@@ -2,16 +2,17 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Category;
 use App\Entity\Product;
+use App\Entity\Category;
 use App\Entity\Transporter;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -22,12 +23,26 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        // Redirection vers la page de liste des produits (ProductCrudController)
-        $url = $this->adminUrlGenerator
-            ->setController(ProductCrudController::class)
-            ->generateUrl();
-
-        return $this->redirect($url);
+        try {
+            $this->denyAccessUnlessGranted("ROLE_ADMIN");
+    
+            // Pour les utilisateurs avec le rôle ROLE_ADMIN
+            // Redirection vers la page de liste des produits (ProductCrudController)
+            $url = $this->adminUrlGenerator
+                ->setController(ProductCrudController::class)
+                ->generateUrl();
+    
+            return $this->redirect($url);
+        } catch (AccessDeniedException $exception) {
+            $this->addFlash('danger', "Cette partie du site est réservée.");
+    
+            if ($this->isGranted("ROLE_PROFESSIONAL")) {
+                return $this->redirectToRoute('home');
+            } else {
+                return $this->redirectToRoute('app_login');
+            }
+        }
+       
     }
 
     // Configuration générale du tableau de bord
