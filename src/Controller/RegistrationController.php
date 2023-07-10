@@ -19,12 +19,16 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
+        // Création d'une nouvelle instance de la classe Professional pour représenter l'utilisateur enregistré
         $user = new Professional();
+        
+        // Création du formulaire d'enregistrement en utilisant la classe RegistrationFormType et l'entité Professional
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+        // Vérification si le formulaire a été soumis et s'il est valide
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+            // Encodage du mot de passe en utilisant l'interface UserPasswordHasherInterface
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -32,10 +36,13 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            // Persistance de l'entité Professional dans la base de données
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
+            
+            // Autres actions à effectuer, par exemple envoyer un e-mail de confirmation
 
+            // Authentification de l'utilisateur nouvellement enregistré
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
@@ -43,6 +50,7 @@ class RegistrationController extends AbstractController
             );
         }
 
+        // Rendu de la vue d'inscription avec le formulaire d'enregistrement
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);

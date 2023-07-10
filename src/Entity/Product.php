@@ -31,12 +31,7 @@ class Product
     #[ORM\Column(length: 180)]
     private ?string $image = null;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ShoppingCartItem::class)]
-    private Collection $shoppingCartItems;
-
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: OrderLine::class)]
-    private Collection $orderLines;
-
+   
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
@@ -45,12 +40,6 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
-
-    public function __construct()
-    {
-        $this->shoppingCartItems = new ArrayCollection();
-        $this->orderLines = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -117,66 +106,7 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection<int, ShoppingCartItem>
-     */
-    public function getShoppingCartItems(): Collection
-    {
-        return $this->shoppingCartItems;
-    }
-
-    public function addShoppingCartItem(ShoppingCartItem $shoppingCartItem): self
-    {
-        if (!$this->shoppingCartItems->contains($shoppingCartItem)) {
-            $this->shoppingCartItems->add($shoppingCartItem);
-            $shoppingCartItem->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeShoppingCartItem(ShoppingCartItem $shoppingCartItem): self
-    {
-        if ($this->shoppingCartItems->removeElement($shoppingCartItem)) {
-            // set the owning side to null (unless already changed)
-            if ($shoppingCartItem->getProduct() === $this) {
-                $shoppingCartItem->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, OrderLine>
-     */
-    public function getOrderLines(): Collection
-    {
-        return $this->orderLines;
-    }
-
-    public function addOrderLine(OrderLine $orderLine): self
-    {
-        if (!$this->orderLines->contains($orderLine)) {
-            $this->orderLines->add($orderLine);
-            $orderLine->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrderLine(OrderLine $orderLine): self
-    {
-        if ($this->orderLines->removeElement($orderLine)) {
-            // set the owning side to null (unless already changed)
-            if ($orderLine->getProduct() === $this) {
-                $orderLine->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
+   
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;

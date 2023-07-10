@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
+    // Route pour afficher la page d'accueil
     #[Route('/home', name: 'home')]
     public function home(): Response
     {
@@ -16,9 +17,11 @@ class HomeController extends AbstractController
         ]);
     }
 
+    // Route pour la page d'accueil par défaut (route '/')
     #[Route('/', name: 'index')]
     public function index(): Response
     {
+        // Redirige vers la route 'home' pour afficher la page d'accueil
         return $this->redirectToRoute('home');
     }
 }
