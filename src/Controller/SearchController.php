@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SearchController extends AbstractController
 {
-    #[Route('/search', name: 'app_search')]
+    #[Route('/search', name: 'search')]
     public function index(
         HairSalonRepository $hairSalonRepository,
         Request $request

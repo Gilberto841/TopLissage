@@ -1,21 +1,46 @@
 <div class="container">
-    <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-      <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
-      </a>
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom bg-custom">
+        <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
+        </a>
 
-      <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Accueil</a></li>
-        <li class="nav-item"><a href="#" class="nav-link ">Produits</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Boutique</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Panier</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
-      </ul>
+        {% if is_granted('ROLE_ADMIN') %}
+            <!-- Header pour les utilisateurs avec le rôle ROLE_ADMIN -->
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="{{ path('admin') }}" class="nav-link">Admin Features</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
+                <!-- Autres liens spécifiques aux utilisateurs avec le rôle ROLE_ADMIN -->
+            </ul>
 
-      <div class="col-md-3 text-end">
-        <button type="button" class="btn btn-outline-primary me-2">Login</button>
-        <button type="button" class="btn btn-primary">Sign-up</button>
-      </div>
-    </nav>
-  </div>
+            <div class="col-md-3 text-end">
+                <a href="{{ path('app_logout') }}"><button type="button" class="btn btn-outline-primary me-2">Logout</button></a>
+<a href="{{ path('admin') }}"><button type="button" class="btn btn-outline-primary me-2">Admin</button></a>            </div>
+        {% elseif is_granted('ROLE_PROFESSIONAL') %}
+            <!-- Header pour les utilisateurs avec le rôle ROLE_PROFESSIONAL -->
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Professional Features</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Profile</a></li>
+                <!-- Autres liens spécifiques aux utilisateurs avec le rôle ROLE_PROFESSIONAL -->
+            </ul>
+
+            <div class="col-md-3 text-end">
+                <a href="{{ path('app_logout') }}"><button type="button" class="btn btn-outline-primary me-2">Logout</button></a>
+<a href="{{ path('app_login') }}"><button type="button" class="btn btn-outline-primary me-2">Professional</button></a>            </div>
+        {% else %}
+         <!-- Header pour les utilisateurs avec le rôle ROLE_ADMIN -->
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">simple User</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
+                <!-- Autres liens spécifiques aux utilisateurs avec le rôle ROLE_ADMIN -->
+            </ul>
+            <!-- Header pour les autres utilisateurs -->
+            <div class="col-md-3 text-end">
+                <a href="{{ path('app_login') }}"><button type="button" class="btn btn-outline-primary me-2">Login</button></a>
+                <a href="{{ path('app_register') }}"><button type="button" class="btn btn-primary">Sign-up</button></a>
+            </div>
+        {% endif %}
+    </header>
+</div>

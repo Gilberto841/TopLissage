@@ -23,14 +23,20 @@ class OrderType extends AbstractType
                 'required' => true,
                 'multiple' => false,
                 'choices' => $user->getAddresses(),
-                'expanded' => true
+                'expanded' => true,
+                'attr' => [
+                    'class' => 'row form-check-inline' // Replace 'form-control' with the desired Bootstrap class
+                ]
             ])
             ->add('transporter',EntityType::class, [
                 'class' => Transporter::class,
                 'label' => false,
                 'required' => true,
                 'multiple' => false,
-                'expanded' => true
+                'expanded' => true,
+                'attr' => [
+                    'class' => 'row form-check-inline' // Replace 'form-control' with the desired Bootstrap class
+                ]
             ])
         ;
     }

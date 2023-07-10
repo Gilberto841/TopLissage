@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SearchType extends AbstractType
 {
@@ -23,10 +24,17 @@ class SearchType extends AbstractType
         $builder
             ->add('query', TextType::class, [
                 'attr' => [
-                    'placeholder' => $this->translator->trans('Recherche via le code postal') // Placeholder du champ de saisie
+                    'placeholder' => $this->translator->trans('Recherche via le code postal'),
+                    'class' => 'form-control mb-10 m-3 text-center' // Placeholder du champ de saisie
                 ],
                 'empty_data' => '', // Valeur par défaut du champ de saisie
-                'required' => true // Champ de saisie requis
+                'required' => false // Champ de saisie requis
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Recherche',
+                'attr' => [
+                    'class' => ' btn bg-primary m-3 px-3s text-bg-primary'
+                ]
             ]);
     }
 
