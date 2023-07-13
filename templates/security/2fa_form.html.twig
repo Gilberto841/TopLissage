@@ -13,12 +13,12 @@
 				<div class="col-md-4 align-self-center">
 					<div class="card" style="background-primary">
 						<div class="card-body text-center">
-							<h5 class="card-title">ok Code</h5>
+							<h5 class="card-title">Veuillez valider votre code recu par mail</h5>
 							<form action="/2fa_check" method="post">
 								<input type="hidden" name="_token" value="{{ csrf_token('2fa') }}">
 
 								<div class="mb-3 d-flex align-items-center">
-									<label for="_auth_code" class="form-label">Authentication Code email:</label>
+									<label for="_auth_code" class="form-label">Code d'accés:</label>
 									<div class="input-group">
 										<input id="_auth_code" type="text" name="_auth_code" class="form-control" autocomplete="one-time-code" autofocus>
 										<div class="input-group-append">
