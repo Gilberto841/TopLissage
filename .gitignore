@@ -27,10 +27,3 @@ yarn-error.log
 node_modules
 node_modules
 
-##node
-public/assets/app.css
-public/assets/app.js
-public/assets/runtime.js
-public/assets/entrypoints.json
-public/assets/manifest.json
-
