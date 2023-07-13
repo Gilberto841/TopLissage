@@ -5,13 +5,13 @@
 
 {% block body %}
 
-<div class="container rounded-top mt-5 bg-primary" id="zero-pad">
+<div class="container rounded-top mt-5 bg-opacity-50 bg-primary" id="zero-pad">
 	{% if cart|length > 0  %}
 
 		{% set total = null %}
 
 
-		<div class="row d-flex justify-content-center">
+		<div class="row d-flex justify-content-center ">
 			<div class="col-lg-10 col-12 pt-3">
 
 				<div class="d-flex flex-column pt-4">
@@ -21,18 +21,12 @@
 					<div class="font-weight-normal">2 items</div>
 				</div>
 
-				<div class="d-flex flex-row justify-content-center px-lg-10 mx-lg-6  bg-secondary   mobile " id="heading">
-					<div class="px-lg-5 mr-lg-4" id="produc">Produits</div>
-					<div class="px-lg-5 ml-lg-5" id="prc">Prix</div>
-					<div class="px-lg-5 ml-lg-1" id="quantity">Quantité</div>
-					<div class="px-lg-5 ml-lg-3" id="total">Total</div>
-				</div>
-
+				
 				{% for item in cart %}
 					{% set total = total + (item.product.price * item.quantity) %}
-					<div class="d-flex flex-row justify-content-between align-items-center pt-lg-4 pt-2 pb-3 border-bottom mobile">
+					<div class="d-flex flex-row justify-content-between align-items-center pt-lg-4 pt-2 pb-3 border-bottom mobile rounded-3 mb-2 bg-opacity-50 bg-white ">
 						<div class="d-flex flex-row align-items-center px-lg-5 m-3">
-							<div><img src="{{ asset('upload/images/products/' ~ item.product.image) }}" alt="" width="110"></div>
+							<div ><img class="card rounded-3" src="{{ asset('upload/images/products/' ~ item.product.image) }}" alt="" width="110"></div>
 							<div class="d-flex flex-row justify-content-start px-lg-2 mx-lg-4 mobile" id="heading">
 								<div class="px-lg-2 mr-lg-2">
 									<h6>{{ item.product.name }}</h6>
@@ -70,7 +64,7 @@
 		</div>
 	</div>
 
-	<div class="container bg-light rounded-bottom py-4" id="zero-pad">
+	<div class="container bg-light rounded-bottom py-4 bg-primary" id="zero-pad">
 		<div class="row d-flex justify-content-center">
 			<div class="col-lg-10 col-12">
 				<div class="d-flex justify-content-between align-items-center">
