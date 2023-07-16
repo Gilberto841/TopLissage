@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0fb5127969d67469465c2dd2a5f280bf",
+    "content-hash": "143482571c0825b9988da767055e559b",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1555,6 +1555,65 @@
                 }
             ],
             "time": "2023-01-14T14:17:03+00:00"
+        },
+        {
+            "name": "gumlet/php-image-resize",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gumlet/php-image-resize.git",
+                "reference": "aee4e2573e83476ffd0ac64b7269f838c8cd9d68"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gumlet/php-image-resize/zipball/aee4e2573e83476ffd0ac64b7269f838c8cd9d68",
+                "reference": "aee4e2573e83476ffd0ac64b7269f838c8cd9d68",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "ext-gd": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "apigen/apigen": "^4.1",
+                "ext-exif": "*",
+                "ext-gd": "*",
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^8.5"
+            },
+            "suggest": {
+                "ext-exif": "Auto-rotate jpeg files"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gumlet\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aditya Patadia",
+                    "homepage": "http://aditya.patadia.org/"
+                }
+            ],
+            "description": "PHP class to re-size and scale images",
+            "homepage": "https://github.com/gumlet/php-image-resize",
+            "keywords": [
+                "image",
+                "php",
+                "resize",
+                "scale"
+            ],
+            "support": {
+                "issues": "https://github.com/gumlet/php-image-resize/issues",
+                "source": "https://github.com/gumlet/php-image-resize/tree/2.0.3"
+            },
+            "time": "2022-06-21T16:20:34+00:00"
         },
         {
             "name": "lcobucci/clock",
@@ -4801,6 +4860,75 @@
                 }
             ],
             "time": "2023-05-29T12:49:39+00:00"
+        },
+        {
+            "name": "symfony/mailer-send-mailer",
+            "version": "v6.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/mailer-send-mailer.git",
+                "reference": "98a4d48f172bfd877b443f6c2592c20ba4ad362f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/mailer-send-mailer/zipball/98a4d48f172bfd877b443f6c2592c20ba4ad362f",
+                "reference": "98a4d48f172bfd877b443f6c2592c20ba4ad362f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "symfony/mailer": "^6.3"
+            },
+            "require-dev": {
+                "symfony/http-client": "^5.4|^6.0"
+            },
+            "type": "symfony-mailer-bridge",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Mailer\\Bridge\\MailerSend\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ramunas Pabreza",
+                    "email": "doobas@gmail.com"
+                },
+                {
+                    "name": "Tautvydas Tijunaitis",
+                    "email": "fosron@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony MailerSend Mailer Bridge",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/mailer-send-mailer/tree/v6.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-02-24T10:49:11+00:00"
         },
         {
             "name": "symfony/messenger",
