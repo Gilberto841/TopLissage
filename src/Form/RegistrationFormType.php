@@ -3,15 +3,17 @@
 namespace App\Form;
 
 use App\Entity\Professional;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -42,8 +44,17 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('hairSalon', CheckboxType::class, [
-                'required' => false,
+            ->add('hairSalon', ChoiceType::class, [
+                'label' => 'Possédez-vous un ou plusieurs Salon de coiffure ?',
+                'choices' => [
+                    'Non je ne possède pas' => false,
+                    "Oui j'en possède" => true,
+                ],
+                'attr' => [
+                    'class' => 'flex-d', // Notez que 'attr' est un tableau
+                ],
+                'expanded' => false, // Affiche les choix sous forme de boutons radio
+                'multiple' => false, // Permet à l'utilisateur de choisir une seule réponse
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
@@ -75,6 +86,8 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ]);
+            
+    
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -82,5 +95,23 @@ class RegistrationFormType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Professional::class, // Classe de l'entité utilisée pour les données du formulaire
         ]);
+    }
+
+    public function onPreSubmit(FormEvent $event): void
+    {
+        $user = $event->getData();
+    
+        // Récupérer la valeur de hairSalon
+        $hairSalon = $user['hairSalon'];
+    
+        // Mettre à jour le rôle en fonction de la valeur de hairSalon
+        if ($hairSalon === true) {
+            $user['roles'] = ['ROLE_PROFESSIONAL_SALON'];
+        } else {
+            $user['roles'] = ['ROLE_PROFESSIONAL'];
+        }
+    
+        // Réaffecter les données mises à jour au formulaire
+        $event->setData($user);
     }
 }

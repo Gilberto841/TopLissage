@@ -27,7 +27,7 @@
 
             <div class="col-md-3 text-end">
                 <a href="{{ path('app_logout') }}"><button type="button" class="btn btn-outline-primary me-2">Logout</button></a>
-<a href="{{ path('app_login') }}"><button type="button" class="btn btn-outline-primary me-2">Professional</button></a>            </div>
+<a href="{{ path('app_login') }}"><button type="button" class="btn btn-outline-primary me-2">{{ app.user.name }}</button></a>            </div>
         {% else %}
          <!-- Header pour les utilisateurs avec le rôle ROLE_ADMIN -->
             <ul class="nav nav-pills">
