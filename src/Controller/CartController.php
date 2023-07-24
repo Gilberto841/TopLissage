@@ -16,16 +16,16 @@ class CartController extends AbstractController
     #[Route('/mon-panier', name: 'cart_index')]
     public function index(CartService $cartService): Response
     {
-        try {
-            $this->denyAccessUnlessGranted("ROLE_PROFESSIONAL");
-        } catch (AccessDeniedException $exception) {
-            $this->addFlash('danger', "Cette partie du site est réservée veuillez vous connecté");
-            return $this->redirectToRoute('app_login');
-        }
-        // Rend la vue 'cart/index.html.twig' en passant le contenu du panier
-        return $this->render('cart/index.html.twig', [
-           'cart' => $cartService->getTotal()
-        ]);
+         // Vérifie si l'utilisateur a l'un des rôles spécifiés ("ROLE_PROFESSIONAL" ou "ROLE_PROFESSIONAL_SALON")
+    if (!$this->isGranted("ROLE_PROFESSIONAL") && !$this->isGranted("ROLE_PROFESSIONAL_SALON")) {
+        $this->addFlash('danger', "Cette partie du site est réservée veuillez vous connecter");
+        return $this->redirectToRoute('app_login');
+    }
+
+    // Rend la vue 'cart/index.html.twig' en passant le contenu du panier
+    return $this->render('cart/index.html.twig', [
+       'cart' => $cartService->getTotal()
+    ]);
     }
 
     // Route pour ajouter un produit au panier

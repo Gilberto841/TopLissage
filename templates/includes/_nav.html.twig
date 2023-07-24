@@ -7,39 +7,44 @@
         {% if is_granted('ROLE_ADMIN') %}
             <!-- Header pour les utilisateurs avec le rôle ROLE_ADMIN -->
             <ul class="nav nav-pills">
-                <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-                <li class="nav-item"><a href="{{ path('admin') }}" class="nav-link">Admin Features</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
+                <li class="nav-item"><a href="{{path('index')}}" class="nav-link active" aria-current="page">Accueil</a></li>
+                <li class="nav-item"><a href="{{ path('admin') }}" class="nav-link">Admin</a></li>
+                
                 <!-- Autres liens spécifiques aux utilisateurs avec le rôle ROLE_ADMIN -->
             </ul>
 
             <div class="col-md-3 text-end">
-                <a href="{{ path('app_logout') }}"><button type="button" class="btn btn-outline-primary me-2">Logout</button></a>
-<a href="{{ path('admin') }}"><button type="button" class="btn btn-outline-primary me-2">Admin</button></a>            </div>
-        {% elseif is_granted('ROLE_PROFESSIONAL') %}
-            <!-- Header pour les utilisateurs avec le rôle ROLE_PROFESSIONAL -->
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Professional Features</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Profile</a></li>
-                <!-- Autres liens spécifiques aux utilisateurs avec le rôle ROLE_PROFESSIONAL -->
+                <a href="{{ path('admin') }}"><button type="button" class="btn btn-outline-primary me-2">{{ app.user.name }}</button></a>  
+                <a href="{{ path('app_logout') }}"><button type="button" class="btn btn-outline-primary me-2">Deconnexion</button></a>
+                          
+            </div>
+        {% elseif is_granted('ROLE_PROFESSIONAL') or is_granted('ROLE_PROFESSIONAL_SALON') %}
+            <!-- Header pour les utilisateurs avec le rôle ROLE_PROFESSIONAL et 'ROLE_PROFESSIONAL_SALON' -->
+           <ul class="nav nav-pills">
+                <li class="nav-item"><a href="{{path('index')}}" class="nav-link active" aria-current="page">Accueil</a></li>
+                <li class="nav-item"><a href="{{path('produits')}}" class="nav-link">Produits</a></li>
+                <li class="nav-item"><a href="{{path('search')}}" class="nav-link">Salon de Coiffures</a></li>
+                <li class="nav-item"><a href="{{path('cart_index')}}" class="nav-link">Mon Panier</a></li>
+                <li class="nav-item"><a href="{{path('app_contact')}}" class="nav-link">Contact</a></li>
             </ul>
 
             <div class="col-md-3 text-end">
-                <a href="{{ path('app_logout') }}"><button type="button" class="btn btn-outline-primary me-2">Logout</button></a>
-<a href="{{ path('app_login') }}"><button type="button" class="btn btn-outline-primary me-2">{{ app.user.name }}</button></a>            </div>
+                <a href="{{ path('app_login') }}"><button type="button" class="btn btn-outline-primary me-3">{{ app.user.name }}</button></a>
+                <a href="{{ path('app_logout') }}"><button type="button" class="btn btn-outline-primary me-1">Deconnexion</button></a>
+
+            </div>
         {% else %}
-         <!-- Header pour les utilisateurs avec le rôle ROLE_ADMIN -->
+         <!-- Header pour les utilisateurs non Connectés -->
             <ul class="nav nav-pills">
-                <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">simple User</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
-                <!-- Autres liens spécifiques aux utilisateurs avec le rôle ROLE_ADMIN -->
+                <li class="nav-item"><a href="{{path('index')}}" class="nav-link active" aria-current="page">Accueil</a></li>
+                <li class="nav-item"><a href="{{path('produits')}}" class="nav-link">Produits</a></li>
+                <li class="nav-item"><a href="{{path('search')}}" class="nav-link">Salon de Coiffures</a></li>
+                <li class="nav-item"><a href="{{path('app_contact')}}" class="nav-link">Contact</a></li>
             </ul>
             <!-- Header pour les autres utilisateurs -->
             <div class="col-md-3 text-end">
-                <a href="{{ path('app_login') }}"><button type="button" class="btn btn-outline-primary me-2">Login</button></a>
-                <a href="{{ path('app_register') }}"><button type="button" class="btn btn-primary">Sign-up</button></a>
+                <a href="{{ path('app_login') }}"><button type="button" class="btn btn-outline-primary me-2">Connexion</button></a>
+                <a href="{{ path('app_register') }}"><button type="button" class="btn btn-primary me-3">Inscription</button></a>
             </div>
         {% endif %}
     </header>

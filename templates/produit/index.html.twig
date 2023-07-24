@@ -4,51 +4,56 @@
 {% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
+	
 
-	<h1>Mes Produits</h1>
-</br>
-{# {% for product in products %} #}
+		<h1 class=" text-center">Produits</h1>
 
-	{# <ul>
-		<h1>{{product.name}}</h1>
-		<img src="{{ asset('upload/images/products/' ~ product.image) }}" alt="" width="400" height="300">*
-		<p>{{product.description|striptags }}</p>
-		
-		<h5>{{product.price}}
-			€</h5>
-		<h5>{{product.quantity}}</h5>
-		<a href="{{ path('cart_add', {'id': product.id}) }}" class="btn btn-dark">Ajouter au panier</a>
-		<hr>
-	</ul> #}
+		</br>
+		{% if is_granted('ROLE_PROFESSIONAL') or is_granted('ROLE_PROFESSIONAL_SALON') %}
+			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+				{% for product in pagination %}
+					<div class="col">
+						<div class="card w-200">
+							<a href="{{ path('produit_details', { 'id': product.id }) }}" class="btn btn-dark">
+								<img src="{{ asset('upload/images/products/' ~ product.image) }}" class="card-img-top img-fluid" alt="...">
+								</a>
 
-	<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
-  {% for product in products %}
-    <div class="col">
-      <div class="card h-100">
-      <a href="{{ path('cart_add', {'id': product.id}) }}" class="btn btn-dark"><img src="{{ asset('upload/images/products/' ~ product.image) }}" class="card-img-top" alt="..." width="50" height="400"></a>
-        
-        <div class="card-body">
-          <h5 class="card-title">{{ product.name }}</h5>
-          <p>{{ product.price }}€</p>
-        </div>
-      </div>
-    </div>
-  {% endfor %}
+							<div class="card-body">
+								<h5 class="card-title">{{ product.name }}</h5>
+								<p>{{ product.price }}€</p>
+							</div>
+						</div>
+					</div>
+				
+{% endfor %}
+<div class=" d-flex ">
+	{% include "includes/_pagination.html.twig" %}
 </div>
+				
 
+			</div>
 
-{# {% endfor %} #}
+		{% else %}
+			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+				{% for product in pagination %}
+					<div class="col">
+						<div class="card h-100">
+							<a href="{{ path('produit_details', { 'id': product.id }) }}" class="btn btn-dark">
+								<img src="{{ asset('upload/images/products/' ~ product.image) }}" class="card-img-top img-fluid" alt="...">
+								</a>
+							<div class="card-body">
+								<h5 class="card-title">{{ product.name }}</h5>
+								
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		{% endif %}
+
+	<div class=" d-flex ">
+		{% include "includes/_pagination.html.twig" %}
+	</div>
+		
 
 {% endblock %}
