@@ -20,12 +20,12 @@
             </div>
         {% elseif is_granted('ROLE_PROFESSIONAL') or is_granted('ROLE_PROFESSIONAL_SALON') %}
             <!-- Header pour les utilisateurs avec le rôle ROLE_PROFESSIONAL et 'ROLE_PROFESSIONAL_SALON' -->
-           <ul class="nav nav-pills">
-                <li class="nav-item"><a href="{{path('index')}}" class="nav-link active" aria-current="page">Accueil</a></li>
-                <li class="nav-item"><a href="{{path('produits')}}" class="nav-link">Produits</a></li>
-                <li class="nav-item"><a href="{{path('search')}}" class="nav-link">Salon de Coiffures</a></li>
-                <li class="nav-item"><a href="{{path('cart_index')}}" class="nav-link">Mon Panier</a></li>
-                <li class="nav-item"><a href="{{path('app_contact')}}" class="nav-link">Contact</a></li>
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="{{ path('index') }}" class="nav-link {% if app.request.attributes.get('_route') == 'index' %}active{% endif %}" aria-current="page">Accueil</a></li>
+                <li class="nav-item"><a href="{{ path('produits') }}" class="nav-link {% if app.request.attributes.get('_route') == 'produits' %}active{% endif %}">Produits</a></li>
+                <li class="nav-item"><a href="{{ path('search') }}" class="nav-link {% if app.request.attributes.get('_route') == 'search' %}active{% endif %}">Salon de Coiffures</a></li>
+                <li class="nav-item"><a href="{{ path('cart_index') }}" class="nav-link {% if app.request.attributes.get('_route') == 'cart_index' %}active{% endif %}">Mon Panier</a></li>
+                <li class="nav-item"><a href="{{ path('app_contact') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_contact' %}active{% endif %}">Contact</a></li>
             </ul>
 
             <div class="col-md-3 text-end">
@@ -36,10 +36,10 @@
         {% else %}
          <!-- Header pour les utilisateurs non Connectés -->
             <ul class="nav nav-pills">
-                <li class="nav-item"><a href="{{path('index')}}" class="nav-link active" aria-current="page">Accueil</a></li>
-                <li class="nav-item"><a href="{{path('produits')}}" class="nav-link">Produits</a></li>
-                <li class="nav-item"><a href="{{path('search')}}" class="nav-link">Salon de Coiffures</a></li>
-                <li class="nav-item"><a href="{{path('app_contact')}}" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="{{ path('index') }}" class="nav-link {% if app.request.attributes.get('_route') == 'index' %}active{% endif %}" aria-current="page">Accueil</a></li>
+                <li class="nav-item"><a href="{{ path('produits') }}" class="nav-link {% if app.request.attributes.get('_route') == 'produits' %}active{% endif %}">Produits</a></li>
+                <li class="nav-item"><a href="{{ path('search') }}" class="nav-link {% if app.request.attributes.get('_route') == 'search' %}active{% endif %}">Salon de Coiffures</a></li>
+                <li class="nav-item"><a href="{{ path('app_contact') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_contact' %}active{% endif %}">Contact</a></li>
             </ul>
             <!-- Header pour les autres utilisateurs -->
             <div class="col-md-3 text-end">
