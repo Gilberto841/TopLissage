@@ -2,24 +2,23 @@
 
 deploy:
     ssh o2switch 'cd ~/sites/toplissage.com && git pull origin main && make install'
-
-install: vendor/autoload.php .env public/storage public/build/manifest.json
-    php artisan cache:clear
-    php artisan migrate
+    
+install: .env vendor/autoload.php public/storage public/build/manifest.json
+    php bin/console cache:clear
+    php bin/console doctrine:migrations:migrate
 
 .env:
     cp .env.example .env
-    php artisan key:generate
+    php bin/console generate:secret
 
 public/storage:
-    php artisan storage:link
+    php bin/console assets:install public
+    php bin/console asset:ic
 
 vendor/autoload.php: composer.lock
     composer install
     touch vendor/autoload.php
 
 public/build/manifest.json: package.json
-    npm i
+    npm install
     npm run build
-
-

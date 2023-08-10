@@ -20,6 +20,7 @@
         "scheb/2fa-trusted-device": "^6.6",
         "sensio/framework-extra-bundle": "^6.2",
         "stripe/stripe-php": "^10.15",
+        "symfony/apache-pack": "^1.0",
         "symfony/asset": "6.3.*",
         "symfony/console": "6.3.*",
         "symfony/doctrine-messenger": "6.3.*",
