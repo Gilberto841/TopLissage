@@ -1,3 +1,3 @@
 framework:
     mailer:
-        dsn: 'sendgrid+api://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@default'
+        dsn: 'smtp://contact@toplissage.com:IOPklmIOLK2!@mail.toplissage.com:465?encryption=ssl'
