@@ -1,3 +1,3 @@
 framework:
     mailer:
-        dsn: 'smtp://contact@toplissage.com:IOPklmIOLK2!@mail.toplissage.com:465?encryption=ssl'
+        dsn: '%env(MAILER_DSN)%'
