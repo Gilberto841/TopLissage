@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use App\Form\ContactType;
 use DateTimeImmutable;
+use App\Form\ContactType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 
 class ContactController extends AbstractController
 {
@@ -33,20 +33,24 @@ class ContactController extends AbstractController
             $data = $form->getData();
 
             // Définit la date de création du message en utilisant DateTimeImmutable
-            $data->setCreatedAt(new DateTimeImmutable()); 
+            $data->setCreateAt(new DateTimeImmutable()); 
 
             // Récupère l'adresse e-mail, le contenu et l'objet du message à partir du formulaire
             $address = $form->get('email')->getData();
             $content = $form->get('message')->getData();
             $objet = $form->get('objet')->getData();
             
-            // Crée une instance de l'e-mail à envoyer
-            $email = (new Email())
-                    ->from($address)
-                    ->to('padrhino@outlook.fr')
-                    ->subject($objet)
-                    ->text($content);
-            
+          // Crée une instance de l'e-mail à envoyer
+            $email = (new TemplatedEmail())
+            ->from($address)
+            ->to('contact@toplissage.com')
+            ->subject($objet)
+            ->htmlTemplate('contact/mail.html.twig')
+            ->context([
+                'messageContent' => $content,
+                'senderEmail' => $address,
+                'messageSubject' => $objet
+            ]);
             // Envoie l'e-mail en utilisant le service MailerInterface
             $mailer->send($email);
 
