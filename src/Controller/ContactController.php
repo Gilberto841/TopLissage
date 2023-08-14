@@ -33,7 +33,7 @@ class ContactController extends AbstractController
             $data = $form->getData();
 
             // Définit la date de création du message en utilisant DateTimeImmutable
-            $data->getCreatedAt(new DateTimeImmutable()); 
+            $data->setCreatedAt(new DateTimeImmutable()); 
 
             // Récupère l'adresse e-mail, le contenu et l'objet du message à partir du formulaire
             $address = $form->get('email')->getData();
