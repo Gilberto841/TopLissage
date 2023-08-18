@@ -15,7 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ContactController extends AbstractController
 {
     // Route pour afficher le formulaire de contact
-    #[Route('/contact', name: 'app_contact')]
+    
+    #[Route('/', name: 'app_contact')]
     public function index(Request $request, 
                         EntityManagerInterface $em,
                         MailerInterface $mailer): Response

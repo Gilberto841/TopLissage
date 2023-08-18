@@ -4,10 +4,12 @@ scheb_two_factor:
         - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
     email:
         digits: 6
+        mailer: App\Mailer\MyAuthCodeMailer
         enabled: true
-        sender_email: no-reply@test.com
-        sender_name: John Doe
+        sender_email: contact@toplissage.com
+        sender_name: Top Lissage
         template: security/2fa_form.html.twig      # Template utilisé pour afficher le formulaire d'authentification
+
     trusted_device:
         enabled: true                 # If the trusted device feature should be enabled
         lifetime: 60              # Lifetime of the trusted device token
