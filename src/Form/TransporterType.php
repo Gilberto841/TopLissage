@@ -22,6 +22,8 @@ class TransporterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Transporter::class, // Classe de l'entité utilisée pour les données du formulaire
+            'csrf_protection' => true,
+
         ]);
     }
 }

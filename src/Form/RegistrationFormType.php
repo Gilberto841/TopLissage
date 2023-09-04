@@ -94,6 +94,8 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Professional::class, // Classe de l'entité utilisée pour les données du formulaire
+            'csrf_protection' => true,
+
         ]);
     }
 

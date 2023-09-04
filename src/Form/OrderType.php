@@ -45,7 +45,9 @@ class OrderType extends AbstractType
     {
         // Configuration des options du formulaire
         $resolver->setDefaults([
-            'user' => []
+            'user' => [],
+            'csrf_protection' => true,
+
         ]);
     }
 }
