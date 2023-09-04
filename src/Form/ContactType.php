@@ -82,6 +82,9 @@ class ContactType extends AbstractType
         // Configuration des options du formulaire
         $resolver->setDefaults([
             'data_class' => Contact::class,
+
+
+            
         ]);
     }
 }
