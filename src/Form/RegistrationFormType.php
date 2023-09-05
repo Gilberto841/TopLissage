@@ -6,10 +6,14 @@ use App\Entity\Professional;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -25,23 +29,50 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Type(['type' => 'string', 'message' => 'Ce champ doit être une chaîne de caractères.']),
+                    new Email()
+                ],
             ])
-            ->add('name', null, [
+            ->add('name', TextType::class, [
                 'label' => 'Name',
                 'attr' => [
                     'class' => 'form-control',
                 ],
+                'constraints' => [
+                    new Length([
+                        'min' => 5,
+                        'max' => 180
+                    ]),
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Type(['type' => 'string', 'message' => 'Ce champ doit être une chaîne de caractères.'])
+                ],
             ])
-            ->add('postalAdress', null, [
+            ->add('postalAdress', TextType::class, [
                 'label' => 'Postal Address',
                 'attr' => [
                     'class' => 'form-control',
                 ],
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Length([
+                        'min' => 10,
+                        'max' => 250,
+                        'minMessage' => 'Le message doit contenir au moins {{ limit }} caractères.',
+                        'maxMessage' => 'Le message ne peut pas dépasser {{ limit }} caractères.'
+                    ])
+                ],
             ])
-            ->add('siret', null, [
+            ->add('siret', TextType::class, [
                 'label' => 'Siret',
                 'attr' => [
                     'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Type(['type' => 'string', 'message' => 'Ce champ doit être une chaîne de caractères.']),
+                
                 ],
             ])
             ->add('hairSalon', ChoiceType::class, [
@@ -62,12 +93,10 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-check-input',
                 ],
-                'constraints' => [
-                    new IsTrue([
+                     new IsTrue([
                         'message' => 'You should agree to our terms.',
                     ]),
-                ],
-            ])
+                ])
             ->add('plainPassword', PasswordType::class, [
                 'mapped' => false,
                 'label' => 'Password',
@@ -76,13 +105,16 @@ class RegistrationFormType extends AbstractType
                     'autocomplete' => 'new-password',
                 ],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
                     new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        'max' => 4096,
+                        'min' => 8,
+                        'max' => 20,
+                        'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
+                        'maxMessage' => 'Le mot de passe ne peut pas dépasser {{ limit }} caractères.'
+                    ]),
+                    new Regex([
+                        'pattern' => '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&]+$/',
+                        'message' => 'Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial.'
                     ]),
                 ],
             ]);
