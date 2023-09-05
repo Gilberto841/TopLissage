@@ -13,7 +13,6 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -23,56 +22,60 @@ class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'Email',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
                 'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
-                    new Type(['type' => 'string', 'message' => 'Ce champ doit être une chaîne de caractères.']),
-                    new Email()
-                ],
-            ])
-            ->add('name', TextType::class, [
-                'label' => 'Name',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'constraints' => [
-                    new Length([
-                        'min' => 5,
-                        'max' => 180
-                    ]),
+                    new Email(),
                     new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
                     new Type(['type' => 'string', 'message' => 'Ce champ doit être une chaîne de caractères.'])
                 ],
-            ])
-            ->add('postalAdress', TextType::class, [
-                'label' => 'Postal Address',
                 'attr' => [
                     'class' => 'form-control',
                 ],
-                'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
-                    new Length([
-                        'min' => 10,
-                        'max' => 250,
-                        'minMessage' => 'Le message doit contenir au moins {{ limit }} caractères.',
-                        'maxMessage' => 'Le message ne peut pas dépasser {{ limit }} caractères.'
-                    ])
-                ],
             ])
-            ->add('siret', TextType::class, [
-                'label' => 'Siret',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
+            ->add('name', null, [
+                'label' => 'Nom/Prénom',
                 'constraints' => [
                     new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
                     new Type(['type' => 'string', 'message' => 'Ce champ doit être une chaîne de caractères.']),
-                
+                    new Length([
+                        'min' => 10,
+                        'max' => 100,
+                        'minMessage' => 'Le Nom/Prénom doit contenir au moins {{ limit }} caractères.',
+                        'maxMessage' => 'Le Nom/Prénom ne peut pas dépasser {{ limit }} caractères.'
+                    ])
+                ],
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('postalAdress', null, [
+                'label' => 'Addresse Postal',
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Type(['type' => 'string', 'message' => 'Ce champ doit être une chaîne de caractères.']),
+                    new Length([
+                        'min' => 10,
+                        'max' => 250,
+                        'minMessage' => `L'addresse Postal doit contenir au moins {{ limit }} caractères.`,
+                        'maxMessage' => `L'addresse Postal ne peut pas dépasser {{ limit }} caractères.`
+                    ])
+                ],
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('siret', null, [
+                'label' => 'Siret',
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Type(['type' => 'string', 'message' => 'Ce champ doit être une chaîne de caractères.'])
+                    
+                ],
+                'attr' => [
+                    'class' => 'form-control',
                 ],
             ])
             ->add('hairSalon', ChoiceType::class, [
@@ -93,10 +96,12 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-check-input',
                 ],
-                     new IsTrue([
+                'constraints' => [
+                    new IsTrue([
                         'message' => 'You should agree to our terms.',
                     ]),
-                ])
+                ],
+            ])
             ->add('plainPassword', PasswordType::class, [
                 'mapped' => false,
                 'label' => 'Password',
@@ -117,6 +122,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial.'
                     ]),
                 ],
+                
             ]);
             
     
@@ -126,8 +132,6 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Professional::class, // Classe de l'entité utilisée pour les données du formulaire
-            'csrf_protection' => true,
-
         ]);
     }
 
