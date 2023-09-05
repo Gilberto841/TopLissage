@@ -28,6 +28,9 @@ class HairSalon
     #[ORM\Column(length: 5)]
     private ?string $chair = null;
 
+    #[ORM\ManyToOne(inversedBy: 'hairSalons')]
+    private ?Professional $professional = null;
+
    
 
     public function getId(): ?int
@@ -100,6 +103,18 @@ class HairSalon
      {
          // Convertis le champ le en sting
          return $this->postalAdress;
+     }
+
+     public function getProfessional(): ?Professional
+     {
+         return $this->professional;
+     }
+
+     public function setProfessional(?Professional $professional): static
+     {
+         $this->professional = $professional;
+
+         return $this;
      }
 
    
