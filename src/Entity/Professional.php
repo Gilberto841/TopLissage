@@ -307,4 +307,6 @@ public function setEmailAuthCode(string $authCode): void
 
         return $this;
     }
+
+    
 }

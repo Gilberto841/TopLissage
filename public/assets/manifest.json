@@ -1,5 +1,7 @@
 {
   "assets/app.css": "/assets/app.css",
   "assets/app.js": "/assets/app.js",
-  "assets/runtime.js": "/assets/runtime.js"
+  "assets/runtime.js": "/assets/runtime.js",
+  "assets/fonts/PlayfairDisplay-Regular.woff": "/assets/fonts/PlayfairDisplay-Regular.09d2e992.woff",
+  "assets/fonts/PlayfairDisplay-Regular.woff2": "/assets/fonts/PlayfairDisplay-Regular.f702301a.woff2"
 }
