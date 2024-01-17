@@ -27,7 +27,7 @@ class ProfilUserController extends AbstractController
 
         $professional = $this->getUser();
 
-        return $this->render('profil_user/index.html.twig', [
+        return $this->render('user/index.html.twig', [
             'professional' => $professional,
         ]);
     }
@@ -72,7 +72,7 @@ class ProfilUserController extends AbstractController
             return $this->redirectToRoute('index'); // Redirigez où vous le souhaitez
         }
 
-        return $this->render('profil_user/edit.html.twig', [
+        return $this->render('user/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -108,7 +108,7 @@ class ProfilUserController extends AbstractController
 
         // ...
 
-        return $this->render('profil_user/editEmail.html.twig', [
+        return $this->render('user/editEmail.html.twig', [
             'emailConfirmationForm' => $emailConfirmationForm->createView(),
         ]);
     }
@@ -151,7 +151,7 @@ class ProfilUserController extends AbstractController
 
         // ...
 
-        return $this->render('profil_user/passEdit.html.twig', [
+        return $this->render('user/passEdit.html.twig', [
             'resetForm' => $resetForm->createView(),
         ]);
     }

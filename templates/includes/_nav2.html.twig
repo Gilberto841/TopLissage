@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-white fixed-top custom-navbar">
 	<div class="container">
-		<a class="navbar-brand fs-4" href="#">		
+		<a class="navbar-brand fs-4 me-5 pe-5" href="#">
+		
 			Top Lissage 
 		</a>
 		
@@ -28,7 +29,7 @@
 						</li>
 
 						<li class="nav-item mx-2 color-white">
-							<a href="{{ path('produits') }}" class="nav-link {% if app.request.attributes.get('_route') == 'produits' %}active{% endif %}">Produits</a>
+							<a href="{{ path('produits') }}" class="btn btn-danger nav-link {% if app.request.attributes.get('_route') == 'produits' %}active{% endif %}">Produits</a>
 						</li>
 						<li class="nav-item mx-2">
 							<a href="{{ path('search') }}" class="nav-link {% if app.request.attributes.get('_route') == 'search' %}active{% endif %}">Salon de Coiffures</a>
@@ -38,12 +39,12 @@
 						</li>
 					</ul>
 					{# Connexion - Inscription #}
-					<div class="d-flex justify-content-center align-items-center gap-3 p-4">
-						<a href="{{ path('app_login') }}">
-							<button type="button" class="btn btn-outline-primary me-3">{{ app.user.name }}</button>
+					<div class="d-flex justify-content-center align-items-center gap-2 p-3">
+						<a href="{{ path('user_profil') }}">
+							<button type="button" class="btn btn-primary me-1">{{ app.user.name }}</button>
 						</a>
 						<a href="{{ path('app_logout') }}">
-							<button type="button" class="btn btn-outline-primary me-2">Deconnexion</button>
+							<button type="button" class="btn btn-primary ">Deconnexion</button>
 						</a>
 
 					</div>
@@ -60,8 +61,8 @@
 							<a href="{{ path('produits') }}" class="nav-link {% if app.request.attributes.get('_route') == 'produits' %}active{% endif %}">Produits</a>
 						</li>
 						<li class="nav-item mx-2">
-							<a href="{{path('app_hair_salon')}}" class="nav-link {% if app.request.attributes.get('_route') == 'search' %}active{% endif %}">Salon de Coiffures</a>
-						</li> 
+							<a href="{{ path('app_hair_salon') }}" class="nav-link {% if app.request.attributes.get('_route') == 'search' %}active{% endif %}">Salon de Coiffures</a>
+						</li>
 						<li class="nav-item">
 							<a href="{{ path('cart_index') }}" class="nav-link {% if app.request.attributes.get('_route') == 'cart_index' %}active{% endif %}">Mon Panier</a>
 						</li>
@@ -72,11 +73,11 @@
 					</ul>
 					{# Connexion - Inscription #}
 					<div class="d-flex justify-content-center align-items-center gap-3 p-4">
-						<a href="{{ path('app_login') }}">
-							<button type="button" class="btn btn-outline-primary me-3">{{ app.user.name }}</button>
+						<a href="{{ path('user_profil') }}">
+							<button type="button" class="btn btn-primary me-1">{{ app.user.name }}</button>
 						</a>
 						<a href="{{ path('app_logout') }}">
-							<button type="button" class="btn btn-outline-primary me-2">Deconnexion</button>
+							<button type="button" class="btn btn-primary ">Deconnexion</button>
 						</a>
 
 					</div>
@@ -102,10 +103,10 @@
 					{# Connexion - Inscription #}
 					<div class="d-flex justify-content-center align-items-center gap-3 p-4">
 						<a href="{{ path('app_login') }}">
-							<button type="button" class="btn btn-outline-primary me-2">Connexion</button>
+							<button type="button" class="btn btn-primary me-1">Connexion</button>
 						</a>
 						<a href="{{ path('app_register') }}">
-							<button type="button" class="btn btn-primary me-3">Inscription</button>
+							<button type="button" class="btn btn-primary ">Inscription</button>
 						</a>
 					</div>
 				</div>
