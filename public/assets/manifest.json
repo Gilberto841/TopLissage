@@ -2,6 +2,8 @@
   "assets/app.css": "/assets/app.css",
   "assets/app.js": "/assets/app.js",
   "assets/runtime.js": "/assets/runtime.js",
-  "assets/fonts/PlayfairDisplay-Regular.woff": "/assets/fonts/PlayfairDisplay-Regular.09d2e992.woff",
-  "assets/fonts/PlayfairDisplay-Regular.woff2": "/assets/fonts/PlayfairDisplay-Regular.f702301a.woff2"
+  "assets/fonts/PlayfairDisplay-Bold.woff": "/assets/fonts/PlayfairDisplay-Bold.9ebda39b.woff",
+  "assets/fonts/PlayfairDisplay-Bold.woff2": "/assets/fonts/PlayfairDisplay-Bold.92b8f299.woff2",
+  "assets/fonts/PlayfairDisplay-BoldItalic.woff": "/assets/fonts/PlayfairDisplay-BoldItalic.9ebda39b.woff",
+  "assets/fonts/PlayfairDisplay-BoldItalic.woff2": "/assets/fonts/PlayfairDisplay-BoldItalic.92b8f299.woff2"
 }
