@@ -6,8 +6,8 @@ $secondary:#FFC107;
 
 @font-face {
     font-family: 'Playfair Display';
-    src: url('../fonts/PlayfairDisplay-BoldItalic.woff') format('woff'),
-         url('../fonts/PlayfairDisplay-BoldItalic.woff2') format('woff2');
+    src: url('../fonts/PlayfairDisplay-Bold.woff') format('woff'),
+         url('../fonts/PlayfairDisplay-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
   }
@@ -50,3 +50,5 @@ a {
 .news-letter{
   height: 200px;
 }
+
+

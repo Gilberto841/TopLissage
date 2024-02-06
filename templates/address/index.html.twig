@@ -8,7 +8,7 @@
 
 	<div class="container">
 		<div class="col-md-4 left-column mx-auto">
-			<h1 class="text-center my-3">Ajouter une Adresse de Livraison</h1>
+			<h1 class="text-center text-light my-3 pt-5 mt-5">Ajouter une Adresse de Livraison</h1>
 			<form method="POST" action="{{ path('app_address') }}">
 				{{ form_start(form) }}
 
@@ -51,7 +51,7 @@
 
 
 				<div class="text-center">
-					{{ form_row(form.submit, {'attr': {'class': 'btn btn-primary m-4'}}) }}
+					{{ form_row(form.submit, {'attr': {'class': 'btn btn-secondary m-4'}}) }}
 				</div>
 
 				{{ form_end(form) }}

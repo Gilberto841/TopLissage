@@ -16,11 +16,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ProfilUserController extends AbstractController
 {
-
+    // Route pour afficher le profil de l'utilisateur
     #[Route('/utilisateur', name: 'user_profil')]
     public function index(): Response
     {
-        /* Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion */
+        // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
@@ -31,6 +31,8 @@ class ProfilUserController extends AbstractController
             'professional' => $professional,
         ]);
     }
+
+    // Route pour modifier les informations personnelles de l'utilisateur
     #[Route('/utilisateur/editionPersonel/{id}', name: 'user_edit', methods: ['GET', 'POST'])]
     public function editPersonal(
         Professional $professional,
@@ -38,33 +40,25 @@ class ProfilUserController extends AbstractController
         EntityManagerInterface $em,
         $id
     ): Response {
-
-        /*si utilisateur non connecté redirige a la page conneion */
+        // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
 
-        /****************************************************************
-         * si un autre utilisateur tante de modifier le profil d'un autre 
-         *    on le redirige vers la page d'accueil
-         *****************************************************************/
-
+        // Si un autre utilisateur tente de modifier le profil d'un autre, redirigez-le vers la page d'accueil
         if ($this->getUser() !== $professional) {
-
             return $this->redirectToRoute('index');
         }
 
+        // Créez le formulaire de modification des informations personnelles
         $form = $this->createForm(ProfessionalType::class, $professional);
 
-        //Gestion de la requête
+        // Gérez la requête
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $professional = $form->getData();
-
+            // Enregistrez les modifications dans la base de données
             $em->persist($professional);
-
             $em->flush();
 
             $this->addFlash('success', 'Salon de coiffure mis à jour avec succès.');
@@ -77,10 +71,9 @@ class ProfilUserController extends AbstractController
         ]);
     }
 
+    // Route pour modifier l'adresse e-mail de l'utilisateur
     #[Route('/utilisateur/editEmail/{id}', name: 'user_email', methods: ['GET', 'POST'])]
-    public function editEmail(Request $request,
-                            Professional $professional,
-                                EntityManagerInterface $entityManager)
+    public function editEmail(Request $request, Professional $professional, EntityManagerInterface $entityManager)
     {
         // Créez un formulaire pour la confirmation de l'e-mail
         $emailConfirmationForm = $this->createForm(EmailConfirmationType::class);
@@ -113,23 +106,18 @@ class ProfilUserController extends AbstractController
         ]);
     }
 
+    // Route pour modifier le mot de passe de l'utilisateur
     #[Route('/utilisateur/editPassword/{id}', name: 'user_pass', methods: ['GET', 'POST'])]
-    public function editPass(Request $request,
-                            Professional $professional,
-                            EntityManagerInterface $entityManager,
-                            UserPasswordHasherInterface $passwordHasher)
+    public function editPass(Request $request, Professional $professional, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
     {
-
-
         // Créez un formulaire pour la confirmation de l'e-mail
         $resetForm = $this->createForm(MyPasswordType::class);
 
         // Gérez la soumission du formulaire
         $resetForm->handleRequest($request);
-        
+
         // Le formulaire de confirmation de Mdp a été soumis
         if ($resetForm->isSubmitted() && $resetForm->isValid()) {
-            
             // Encodez le nouveau mot de passe
             $encodedPassword = $passwordHasher->hashPassword(
                 $professional,
@@ -149,8 +137,7 @@ class ProfilUserController extends AbstractController
             return $this->redirectToRoute('user_profil');
         }
 
-        // ...
-
+        // envoi vers la page pour modifier le profil user
         return $this->render('user/passEdit.html.twig', [
             'resetForm' => $resetForm->createView(),
         ]);
